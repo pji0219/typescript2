@@ -1,31 +1,31 @@
 {
-  // // JavaScript 💩
-  // function jsAdd(num1, num2) {
-  //   return num1 + num2;
-  // }
+  // JavaScript 💩
+  function jsAdd(num1, num2) {
+    return num1 + num2;
+  }
 
-  // // TypeScript ✨
-  // function add(num1: number, num2: number): number {
-  //   return num1 + num2;
-  // }
+  // TypeScript ✨
+  function add(num1: number, num2: number): number {
+    return num1 + num2;
+  }
 
-  // // JavaScript 💩
-  // function jsFetchNum (id) {
-  //   // code ...
-  //   // code ...
-  //   return new Promise((resolve, reject) => {
-  //     resolve(100);
-  //   })
-  // }
+  // JavaScript 💩
+  function jsFetchNum(id) {
+    // code ...
+    // code ...
+    return new Promise((resolve, reject) => {
+      resolve(100);
+    });
+  }
 
-  // // TypeScript ✨
-  // function FetchNum (id: string): Promise<number> {
-  //   // code ...
-  //   // code ...
-  //   return new Promise((resolve, reject)  => {
-  //     resolve(100);
-  //   })
-  // }
+  // TypeScript ✨
+  function FetchNum(id: string): Promise<number> {
+    // code ...
+    // code ...
+    return new Promise((resolve, reject) => {
+      resolve(100);
+    });
+  }
 
   // JavaScript ✨ => TypeScript: 최신 자바스크립트 문법은 타입스크립트에서도 사용 가능
   // 그리고 자바스크립트에는 아직 포함되지 않은 타입스크립트에서만 제공하는 문법도 사용가능
