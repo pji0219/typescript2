@@ -26,7 +26,7 @@
 {
   /**
    * JavaScript
-   * Primitive: number, string, boolean, bigint, symbol, null, undefined
+   * Primitive(원시): number, string, boolean, bigint, symbol, null, undefined
    한가지의 데이터를 담을 수 있는 타입들
 
    * Object: function, array .....
@@ -35,7 +35,6 @@
   */
 
   // 타입스크립트
-
   // number
   // const num:number = 'd'; 숫자 타입에는 문자열 타입을 할당할 수 없다.
   const num: number = 7;
@@ -50,7 +49,7 @@
   let name: undefined; // 💩 undefined만 할당 가능하기 때문에 이렇게 선언하면 안된다.
   let age: number | undefined; // 이런식으로 숫자 또는 undefined를 할당 가능하게 해야한다.
   // 이 변수에는 숫자가 들어 있을 수도 있고 값이 아직 초기화 되지 않을 수도 있는 옵셔널 타입일때 이런식으로 많이 선언해준다.
-  
+
   // 예: 무언가를 찾았다면 숫자를 못 찾았으면 undefined를 리턴하는 함수
   function find(): number | undefined {
     return 1;
@@ -59,7 +58,7 @@
   // null: 아무것도 없는 상태
   let person: null; // 💩
   let person2: string | null;
-  
+
   // 보통 undefined를 많이 이용한다.
   // 물론 값이 있거나 없다는걸 나타낼때는 문맥상 null을 이용하는 것이 맞을수가 있다.
 
@@ -86,27 +85,25 @@
 
   // void
   // 함수에서 아무것도 리턴하지 않으면 void 타입이 됨
-  function print(): void { 
+  function print(): void {
     console.log('hello');
   }
 
   // never: 리턴하지 않는 함수에서 씀 그래서 보통 에러에 대한 함수에서 씀
   // throwError라는 것은 어플리케이션에서 전혀 예상치 못한 에러 또는 핸들링 할 수 없는 에러가 발생 했을 때
   // 호출할 수 있는 함수
-   // 발생한 에러 메세지를 서버로 보내서 로그를 남기고 에러를 던짐
+  // 발생한 에러 메세지를 서버로 보내서 로그를 남기고 에러를 던짐
   // 그러고 나면 에러를 던지니깐 어플이 죽게 됨
   // never 타입은 함수에서 절대 리턴 되지 않는 경우에 그것을 명시하기 위해서 쓰임
-  function throwError(message: string): never{
+  function throwError(message: string): never {
     // message -> server (log)
     throw new Error(message);
   }
-  
+
   // object: 어떤 타입의 데이터든 담을 수 있다. (원시 타입을 제외한 모든 오브젝트 타입을 할당할 수 있다.)
   let obj: object; // 💩 가능하면 오브젝트도 어떤 타입인지를 조금 더 명시해서 작성하는 것이 좋다.
   // 이 함수에는 어떠한 object도 전달할 수가 있다.
-  function acceptSomeObject(obj: object) {
-
-  }
-  acceptSomeObject({name: 'park'});
-  acceptSomeObject({age: 33});
+  function acceptSomeObject(obj: object) {}
+  acceptSomeObject({ name: 'park' });
+  acceptSomeObject({ age: 33 });
 }
