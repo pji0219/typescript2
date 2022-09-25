@@ -1,3 +1,5 @@
+// 타입을 쓰면 좀 더 안정적인 프로그래밍이 가능하도록 해주고 타입을 명시함으로써 조금 더 나은 문서화를 하는 효과도 있다.
+
 {
   // JavaScript 💩
   function jsAdd(num1, num2) {
@@ -19,9 +21,9 @@
   }
 
   // TypeScript ✨
-  function FetchNum(id: string): Promise<number> {
-    // code ...
-    // code ...
+  function fetchNum(id: string): Promise<number> {
+    // code...
+    // code...
     return new Promise((resolve, reject) => {
       resolve(100);
     });
