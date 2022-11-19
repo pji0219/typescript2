@@ -42,5 +42,10 @@
     console.log(message);
   }
   printMessage(); */
-  // Rest parameter
+
+  // Rest parameter: 여러개의 인자를 받아 올 때 편리하게 쓸 수 있는 문법
+  function addNums(...nums: number[]): number {
+    return nums.reduce((a, b) => a + b);
+  }
+  console.log(addNums(1, 2, 3, 4, 5, 6, 7));
 }
