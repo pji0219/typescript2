@@ -1,5 +1,5 @@
 {
-  // JavaScript 💩
+  /*  // JavaScript 💩
   function jsAdd(num1, num2) {
     return num1 + num2;
   }
@@ -27,7 +27,20 @@
     });
   }
 
-  //JavaScript ✨ => TypeScript
-  // JS, TS 둘다 사용 가능함
-  // Optional parameter
+  // JS, TS 둘다 사용 가능한 것
+  // Optional parameter: 인자를 전달해도 되고 안해도 되는 파라미터
+  function printName(firstName: string, lastName?: string) {
+    console.log(firstName);
+    console.log(lastName); // 전달하지 않으면 undefined
+  }
+  printName('종익', '박');
+  printName('종익');
+  printName('종익', undefined);
+
+  // Default parameter
+  function printMessage(message: string = 'default message') {
+    console.log(message);
+  }
+  printMessage(); */
+  // Rest parameter
 }
