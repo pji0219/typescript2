@@ -21,5 +21,5 @@
     return undefined;
   }
   const numbers = findNumbers();
-  numbers!.push(2);
+  numbers!.push(2); // 에러😱 !는 값이 있다는 것을 장담할 때 사용
 }
