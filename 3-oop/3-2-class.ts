@@ -1,5 +1,5 @@
 {
-  type CoffeCup = {
+  type CoffeeCup = {
     shots: number;
     hasMilk: boolean;
   };
@@ -13,11 +13,18 @@
       this.coffeeBeans = coffeeBeans;
     }
 
-    makeCoffee(shots: number): CoffeCup {
+    // 함수도 static 가능, 클래스 레벨로 만들었기 때문에 객체를 생성하지 않아도 메서드 사용 가능
+    static makeMachine(coffeeBeans: number): CoffeeMaker {
+      return new CoffeeMaker(coffeeBeans);
+    }
+
+    makeCoffee(shots: number): CoffeeCup {
       if (this.coffeeBeans < shots * CoffeeMaker.BEANS_GRAMM_PER_SHOT) {
         throw new Error('커피콩이 충분하지 않습니다!');
       }
-      this.coffeeBeans = shots * CoffeeMaker.BEANS_GRAMM_PER_SHOT;
+
+      this.coffeeBeans -= shots * CoffeeMaker.BEANS_GRAMM_PER_SHOT;
+
       return {
         shots,
         hasMilk: false,
@@ -27,4 +34,7 @@
 
   const maker = new CoffeeMaker(32);
   console.log(maker);
+
+  const maker2 = CoffeeMaker.makeMachine(3);
+  console.log(maker2);
 }
