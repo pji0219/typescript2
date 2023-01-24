@@ -69,8 +69,17 @@
     }
   }
 
+  // 인터페이스를 만들어서 컴포지션을 디커플링해서 사용
+  interface MilkFother {
+    makeMilk(cup: CoffeeCup): CoffeeCup;
+  }
+
+  interface SugarProvider {
+    addSugar(cup: CoffeeCup): CoffeeCup;
+  }
+
   // 싸구려 우유 거품기
-  class CheapMilkSteamer {
+  class CheapMilkSteamer implements MilkFother {
     private steamMilk(): void {
       console.log('우유를 가열하는 중 입니다...');
     }
@@ -84,10 +93,53 @@
     }
   }
 
+  class FancyMilkSteamer implements MilkFother {
+    private steamMilk(): void {
+      console.log('고급 우유를 가열하는 중 입니다...');
+    }
+
+    makeMilk(cup: CoffeeCup): CoffeeCup {
+      this.steamMilk();
+      return {
+        ...cup,
+        hasMilk: true,
+      };
+    }
+  }
+
+  class ColdMilkSteamer implements MilkFother {
+    private steamMilk(): void {
+      console.log('우유를 차갑게 유지하는 중 입니다...');
+    }
+
+    makeMilk(cup: CoffeeCup): CoffeeCup {
+      this.steamMilk();
+      return {
+        ...cup,
+        hasMilk: true,
+      };
+    }
+  }
+
   // 설탕 제조기
-  class AutomaticSugarMixer {
+  class CandySugarMixer implements SugarProvider {
     private getSugar() {
-      console.log('설탕을 섞는 중 입니다.');
+      console.log('설탕을 사탕에서 얻는중 입니다.');
+      return true;
+    }
+
+    addSugar(cup: CoffeeCup): CoffeeCup {
+      const sugar = this.getSugar();
+      return {
+        ...cup,
+        hasSugar: sugar,
+      };
+    }
+  }
+
+  class SugarMixer implements SugarProvider {
+    private getSugar() {
+      console.log('설탕을 자에서 얻는 중입니다.');
       return true;
     }
 
@@ -102,10 +154,23 @@
 
   // composition으로 구현
   class CaffeLatteMachine extends CoffeeMachine {
+    // beans: number = 0;
+    // public readonly serialNumber: string = '';
+    // private milkFother: MilkFother;
+
+    // constructor(
+    //   beans: number,
+    //   serialNumber: string
+    // ) {
+    //   super(beans);
+    //   this.serialNumber = serialNumber;
+    //   this.milkFother = new CheapMilkSteamer();
+    // }
+
     constructor(
       beans: number,
       public readonly serialNumber: string,
-      private milkFother: CheapMilkSteamer
+      private milkFother: MilkFother
     ) {
       super(beans);
     }
@@ -118,7 +183,7 @@
 
   // composition으로 구현
   class SweetCoffeeMaker extends CoffeeMachine {
-    constructor(beans: number, private sugar: AutomaticSugarMixer) {
+    constructor(beans: number, private sugar: SugarProvider) {
       super(beans);
     }
 
@@ -133,8 +198,8 @@
   class SweetCaffeLatteMachine extends CoffeeMachine {
     constructor(
       private beans: number,
-      private milk: CheapMilkSteamer,
-      private sugar: AutomaticSugarMixer
+      private milk: MilkFother,
+      private sugar: SugarProvider
     ) {
       super(beans);
     }
@@ -146,6 +211,18 @@
       return this.milk.makeMilk(sugarAdded);
     }
   }
+
+  const cheapMilkMaker = new CheapMilkSteamer();
+  const fancyMilkMaker = new FancyMilkSteamer();
+  const candySuger = new CandySugarMixer();
+
+  const sweetMachine = new SweetCoffeeMaker(12, candySuger);
+  const latteMachine = new CaffeLatteMachine(12, 'SS', cheapMilkMaker);
+  const sweetLatteMachine = new SweetCaffeLatteMachine(
+    12,
+    cheapMilkMaker,
+    candySuger
+  );
 
   // const machines: CoffeeMaker[] = [
   //   new CoffeeMachine(16),
