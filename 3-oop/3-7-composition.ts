@@ -18,13 +18,17 @@
     private static BEANS_GRAMM_PER_SHOT: number = 7;
     private coffeeBeans: number = 0;
 
-    constructor(coffeeBeans: number) {
+    constructor(
+      coffeeBeans: number,
+      private milk: MilkFother,
+      private sugar: SugarProvider
+    ) {
       this.coffeeBeans = coffeeBeans;
     }
 
-    static makeMachine(coffeeBeans: number): CoffeeMachine {
-      return new CoffeeMachine(coffeeBeans);
-    }
+    // static makeMachine(coffeeBeans: number): CoffeeMachine {
+    //   return new CoffeeMachine(coffeeBeans);
+    // }
 
     fillCoffeeBeans(beans: number) {
       if (beans < 0) {
@@ -65,7 +69,10 @@
     makeCoffee(shots: number): CoffeeCup {
       this.grindBeans(shots);
       this.preheat();
-      return this.extract(shots);
+      const coffee = this.extract(shots);
+      const sugarAdded = this.sugar.addSugar(coffee);
+
+      return this.milk.makeMilk(sugarAdded);
     }
   }
 
@@ -121,6 +128,12 @@
     }
   }
 
+  class NoMilk implements MilkFother {
+    makeMilk(cup: CoffeeCup): CoffeeCup {
+      return cup;
+    }
+  }
+
   // 설탕 제조기
   class CandySugarMixer implements SugarProvider {
     private getSugar() {
@@ -152,7 +165,13 @@
     }
   }
 
-  // composition으로 구현
+  class NoSugar implements SugarProvider {
+    addSugar(cup: CoffeeCup): CoffeeCup {
+      return cup;
+    }
+  }
+
+  // composition으로 구현, 원래 코드를 지워도 되는데 아래 주석 친 constructor 때문에 놔둠
   class CaffeLatteMachine extends CoffeeMachine {
     // beans: number = 0;
     // public readonly serialNumber: string = '';
@@ -181,70 +200,23 @@
     }
   }
 
-  // composition으로 구현
-  class SweetCoffeeMaker extends CoffeeMachine {
-    constructor(beans: number, private sugar: SugarProvider) {
-      super(beans);
-    }
-
-    makeCoffee(shots: number): CoffeeCup {
-      const coffee = super.makeCoffee(shots);
-
-      return this.sugar.addSugar(coffee);
-    }
-  }
-
-  // composition으로 구현
-  class SweetCaffeLatteMachine extends CoffeeMachine {
-    constructor(
-      private beans: number,
-      private milk: MilkFother,
-      private sugar: SugarProvider
-    ) {
-      super(beans);
-    }
-
-    makeCoffee(shots: number): CoffeeCup {
-      const coffee = super.makeCoffee(shots);
-      const sugarAdded = this.sugar.addSugar(coffee);
-
-      return this.milk.makeMilk(sugarAdded);
-    }
-  }
-
   // 우유
   const cheapMilkMaker = new CheapMilkSteamer();
   const fancyMilkMaker = new FancyMilkSteamer();
   const coldMilkMaker = new ColdMilkSteamer();
+  const noMilk = new NoMilk();
 
   // 설탕
   const candySugar = new CandySugarMixer();
   const sugar = new SugarMixer();
+  const noSugar = new NoSugar();
 
   // SweetCoffeeMaker 클래스를 재사용 하면서 내가 원하는 부품(candySugar등)을 가져다가 서로 다른 객체를 만들 수 있다.
   // 즉 내가 원하는 용도에 따라 SweetCoffeeMaker 클래스를 다르게 사용할 수 있다.
-  const sweetCandyMachine = new SweetCoffeeMaker(12, candySugar);
-  const sweetMachine = new SweetCoffeeMaker(12, sugar);
+  const sweetCandyMachine = new CoffeeMachine(12, noMilk, candySugar);
+  const sweetMachine = new CoffeeMachine(12, noMilk, sugar);
 
-  const latteMachine = new CaffeLatteMachine(12, 'SS', cheapMilkMaker);
-  const coldLatteMachine = new CaffeLatteMachine(12, 'SS', coldMilkMaker);
-  const sweetLatteMachine = new SweetCaffeLatteMachine(
-    12,
-    cheapMilkMaker,
-    candySugar
-  );
-
-  // const machines: CoffeeMaker[] = [
-  //   new CoffeeMachine(16),
-  //   new CaffeLatteMachine(16, '1'),
-  //   new SweetCoffeeMaker(16),
-  //   new CoffeeMachine(16),
-  //   new CaffeLatteMachine(16, '1'),
-  //   new SweetCoffeeMaker(16),
-  // ];
-
-  // machines.forEach((machine) => {
-  //   console.log('-----------------------');
-  //   console.log(machine.makeCoffee(1));
-  // });
+  const latteMachine = new CoffeeMachine(12, cheapMilkMaker, noSugar);
+  const coldLatteMachine = new CoffeeMachine(12, coldMilkMaker, noSugar);
+  const sweetLatteMachine = new CoffeeMachine(12, cheapMilkMaker, candySugar);
 }
