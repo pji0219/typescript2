@@ -212,16 +212,26 @@
     }
   }
 
+  // 우유
   const cheapMilkMaker = new CheapMilkSteamer();
   const fancyMilkMaker = new FancyMilkSteamer();
-  const candySuger = new CandySugarMixer();
+  const coldMilkMaker = new ColdMilkSteamer();
 
-  const sweetMachine = new SweetCoffeeMaker(12, candySuger);
+  // 설탕
+  const candySugar = new CandySugarMixer();
+  const sugar = new SugarMixer();
+
+  // SweetCoffeeMaker 클래스를 재사용 하면서 내가 원하는 부품(candySugar등)을 가져다가 서로 다른 객체를 만들 수 있다.
+  // 즉 내가 원하는 용도에 따라 SweetCoffeeMaker 클래스를 다르게 사용할 수 있다.
+  const sweetCandyMachine = new SweetCoffeeMaker(12, candySugar);
+  const sweetMachine = new SweetCoffeeMaker(12, sugar);
+
   const latteMachine = new CaffeLatteMachine(12, 'SS', cheapMilkMaker);
+  const coldLatteMachine = new CaffeLatteMachine(12, 'SS', coldMilkMaker);
   const sweetLatteMachine = new SweetCaffeLatteMachine(
     12,
     cheapMilkMaker,
-    candySuger
+    candySugar
   );
 
   // const machines: CoffeeMaker[] = [
