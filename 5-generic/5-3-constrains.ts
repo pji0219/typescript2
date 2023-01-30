@@ -24,7 +24,9 @@ function payBad(employee: Employee): Employee {
   return employee;
 }
 
-function pay<T>(employee: T): T {
+// 제네릭이라도 아무 타입 다 받아 올 수 있는 것이 아니고 Employee를 구현 한 것만 가능(조건)
+function pay<T extends Employee>(employee: T): T {
+  employee.pay();
   return employee;
 }
 
@@ -36,3 +38,24 @@ ljh.workPartTime();
 const pjiAfterPay = payBad(pji);
 const ljhAfterPay = payBad(ljh);
 // pjiAfterPay.workFullTime(); 안됨
+
+const pjiAfterPay2 = pay(pji);
+const ljhAfterPay2 = pay(ljh);
+pjiAfterPay2.workFullTime();
+
+const obj = {
+  name: 'pji',
+  age: 34,
+};
+
+const obj2 = {
+  animal: '🐰',
+};
+
+function getValue<T, K extends keyof T>(obj: T, key: K): T[K] {
+  return obj[key];
+}
+
+console.log(getValue(obj, 'name')); // pji
+console.log(getValue(obj, 'age')); // 34
+console.log(getValue(obj2, 'animal')); // 🐰
