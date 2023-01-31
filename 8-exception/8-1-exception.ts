@@ -35,7 +35,23 @@ try {
   console.log('catched!!');
 } finally {
   closeFile(fileName);
-  console.log(`finally!!`);
+  console.log(`closed!!`);
 }
 
 console.log('!!!');
+
+function run() {
+  const fileName = 'not exist!💩';
+
+  try {
+    console.log(readFile(fileName));
+  } catch (error) {
+    console.log('catched!!');
+    return; // 리턴으로 값을 반환해도 아래에 finally가 있기 때문에 아래 부분이 실행된다.
+  } finally {
+    closeFile(fileName);
+    console.log(`closed!!`);
+  }
+}
+
+run();

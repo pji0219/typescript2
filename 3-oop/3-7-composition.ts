@@ -186,6 +186,7 @@
     //   this.milkFother = new CheapMilkSteamer();
     // }
 
+    // 디펜던시 인젝션으로 구현
     constructor(
       beans: number,
       public readonly serialNumber: string,
