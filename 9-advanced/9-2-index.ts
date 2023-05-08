@@ -1,5 +1,6 @@
 {
-  // index type
+  // Utility Types
+  // 1. index type
   const obj = {
     name: 'pji',
   };
