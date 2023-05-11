@@ -11,4 +11,9 @@
     about: { title: 'about' },
     contact: { title: 'contact' },
   };
+
+  // 아래는 기타 유틸리티 타입
+  type Animal = 'cat' | 'dog';
+  type NewAnimal = Capitalize<Animal>; // 'Cat' | 'Dog'
+  const animal: NewAnimal = 'Cat';
 }
